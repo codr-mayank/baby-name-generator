@@ -1,9 +1,34 @@
-<script setup>
-  const options = reactive({
-    gender: 'Girl',
-    popularity: 'Unique',
-    length: 'All'
-  })
+<script setup lang="ts">
+
+  enum Gender {
+    GIRL = 'Girl',
+    BOY = 'Boy',
+    UNISEX = 'Unisex'
+  };
+
+  enum Popularity {
+    TRENDY = 'Trendy',
+    UNIQUE = 'Unique'
+  };
+
+  enum Length {
+    SHORT = 'Short',
+    LONG = 'Long',
+    ALL = 'All'
+  };
+
+  interface optionsState {
+    gender: Gender,
+    popularity: Popularity,
+    length: Length
+  }
+
+  const options = reactive <optionsState> ({
+    gender: Gender.GIRL,
+    popularity: Popularity.TRENDY,
+    length: Length.LONG
+  });
+
 </script>
 
 <template>
@@ -16,18 +41,18 @@
         <div class="option-buttons">
           <button
             class="option option-left"
-            :class="options.gender === 'Girl' && 'option-active'"
+            :class="options.gender === Gender.GIRL && 'option-active'"
           >
             Girl
           </button>
           <button
             class="option"
-            :class="options.gender === 'Unisex' && 'option-active'"
+            :class="options.gender === Gender.UNISEX && 'option-active'"
           >
             Unisex
           </button>
           <button class="option option-right"
-            :class="options.gender === 'Boy' && 'option-active'"
+            :class="options.gender === Gender.BOY && 'option-active'"
           >
             Boy
           </button>
@@ -38,13 +63,13 @@
         <div class="option-buttons">
           <button
             class="option option-left"
-            :class="options.popularity === 'Trendy' && 'option-active'"
+            :class="options.popularity === Popularity.TRENDY && 'option-active'"
           >
             Trendy
           </button>
           <button
             class="option option-right"
-            :class="options.popularity === 'Unique' && 'option-active'"
+            :class="options.popularity === Popularity.UNIQUE && 'option-active'"
           >
             Unique
           </button>
@@ -55,19 +80,19 @@
         <div class="option-buttons">
           <button
             class="option option-left"
-            :class="options.length === 'Short' && 'option-active'"
+            :class="options.length === Length.SHORT && 'option-active'"
           >
             Short
           </button>
           <button
             class="option"
-            :class="options.length === 'All' && 'option-active'"
+            :class="options.length === Length.ALL && 'option-active'"
           >
             All
           </button>
           <button
             class="option option-right"
-            :class="options.length === 'Long' && 'option-active'"
+            :class="options.length === Length.LONG && 'option-active'"
           >
             Long
           </button>
