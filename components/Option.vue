@@ -14,6 +14,7 @@ import { Gender, Length, Popularity } from "@/data";
       length: Length
     }
   }
+
   const props = defineProps <OptionProps> ();
 
   const computeButtonNames = (value, index) => {
@@ -27,7 +28,6 @@ import { Gender, Length, Popularity } from "@/data";
     return classNames.join(' ');
   }
 </script>
-
 
 <template>
   <div class="option-container">
