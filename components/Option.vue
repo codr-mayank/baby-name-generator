@@ -76,3 +76,4 @@ import { Gender, Length, Popularity } from "@/data";
       color: #fff;
     }
   </style>
+  

@@ -30,6 +30,12 @@
 
   const selectedNames = ref <String[]> ([]);
 
+  const removeName = (index: number) => {
+    const filteredNames = [...selectedNames.value];
+    filteredNames.splice(index, 1);
+    selectedNames.value = filteredNames;
+  }
+
   const optionsArray = [
     {
       title: '1) Choose a gender',
@@ -68,7 +74,13 @@
       </button>
     </div>
     <div class="cards-container">
-      <CardName v-for="name in selectedNames" :key="name" :name="name" />
+      <CardName
+        v-for="(name, index) in selectedNames"
+        :key="name"
+        :name="name"
+        :index="index"
+        @remove="() => removeName(index)"
+      />
     </div>
   </div>
 </template>
