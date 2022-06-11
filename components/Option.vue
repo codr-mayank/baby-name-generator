@@ -15,6 +15,17 @@ import { Gender, Length, Popularity } from "@/data";
     }
   }
   const props = defineProps <OptionProps> ();
+
+  const computeButtonNames = (value, index) => {
+    const classNames = [];
+    if (props.options[props.option.category] === value) {
+      classNames.push('option-active');
+    }
+    if (index === 0) classNames.push('option-left');
+    if (index === props.option.buttons.length - 1) classNames.push('option-right');
+
+    return classNames.join(' ');
+  }
 </script>
 
 
@@ -23,10 +34,10 @@ import { Gender, Length, Popularity } from "@/data";
   <h4>{{ option.title }}</h4>
   <div class="option-buttons">
     <button
-      v-for="value in option.buttons"
+      v-for="(value, index) in option.buttons"
       :key="value"
-      class="option option-left"
-      :class="options[option.category] === value && 'option-active'"
+      class="option"
+      :class="computeButtonNames(value, index)"
       @click="options[option.category] = value"
     >
       {{ value }}
