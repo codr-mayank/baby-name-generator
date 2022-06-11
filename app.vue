@@ -30,6 +30,29 @@
 
   const selectedNames = ref <String[]> ([]);
 
+  const removeName = (index: number) => {
+    const filteredNames = [...selectedNames.value];
+    filteredNames.splice(index, 1);
+    selectedNames.value = filteredNames;
+  }
+
+  const optionsArray = [
+    {
+      title: '1) Choose a gender',
+      category: 'gender',
+      buttons: [Gender.GIRL, Gender.BOY, Gender.UNISEX]
+    },
+    {
+      title: "2) Choose the name's popularity",
+      category: 'popularity',
+      buttons: [Popularity.TRENDY, Popularity.UNIQUE]
+    },
+    {
+      title: "3) Choose name's length",
+      category: 'length',
+      buttons: [Length.SHORT, Length.LONG, Length.ALL]
+    }
+  ];
 </script>
 
 <template>
@@ -37,76 +60,12 @@
     <h1>Baby Name Generator</h1>
     <p>Choose your options and click the "Find Names" button below</p>
     <div class="options-container">
-      <div class="option-container">
-        <h4>1) Choose a gender</h4>
-        <div class="option-buttons">
-          <button
-            class="option option-left"
-            :class="options.gender === Gender.GIRL && 'option-active'"
-            @click="options.gender = Gender.GIRL"
-          >
-            Girl
-          </button>
-          <button
-            class="option"
-            :class="options.gender === Gender.UNISEX && 'option-active'"
-            @click="options.gender = Gender.UNISEX"
-          >
-            Unisex
-          </button>
-          <button class="option option-right"
-            :class="options.gender === Gender.BOY && 'option-active'"
-            @click="options.gender = Gender.BOY"
-          >
-            Boy
-          </button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>2) Choose the name's popularity</h4>
-        <div class="option-buttons">
-          <button
-            class="option option-left"
-            :class="options.popularity === Popularity.TRENDY && 'option-active'"
-            @click="options.popularity = Popularity.TRENDY"
-          >
-            Trendy
-          </button>
-          <button
-            class="option option-right"
-            :class="options.popularity === Popularity.UNIQUE && 'option-active'"
-            @click="options.popularity = Popularity.UNIQUE"
-          >
-            Unique
-          </button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>1) Choose name's length</h4>
-        <div class="option-buttons">
-          <button
-            class="option option-left"
-            :class="options.length === Length.SHORT && 'option-active'"
-            @click="options.length = Length.SHORT"
-          >
-            Short
-          </button>
-          <button
-            class="option"
-            :class="options.length === Length.ALL && 'option-active'"
-            @click="options.length = Length.ALL"
-          >
-            All
-          </button>
-          <button
-            class="option option-right"
-            :class="options.length === Length.LONG && 'option-active'"
-            @click="options.length = Length.LONG"
-          >
-            Long
-          </button>
-        </div>
-      </div>
+      <Option
+        v-for="option in optionsArray"
+        :key="option.category"
+        :option="option"
+        :options="options"
+      />
       <button
         class="primary"
         @click="computeSelectedNames"
@@ -115,12 +74,13 @@
       </button>
     </div>
     <div class="cards-container">
-      <div v-for="name in selectedNames" :key="name" class="card">
-        <h4>
-          {{ name }}
-        </h4>
-        <p>x</p>
-      </div>
+      <CardName
+        v-for="(name, index) in selectedNames"
+        :key="name"
+        :name="name"
+        :index="index"
+        @remove="() => removeName(index)"
+      />
     </div>
   </div>
 </template>
@@ -148,35 +108,6 @@
     position: relative;
   }
 
-  .option-container {
-    margin-bottom: 2rem;
-  }
-
-  .option {
-    background: #fff;
-    outline: 0.15rem solid rgb(249, 87, 89);
-    border: none;
-    padding: 0.75rem;
-    width: 12rem;
-    font-size: 1rem;
-    font-weight: 200;
-    color: rgb(27, 60, 138);
-    cursor: pointer;
-  }
-
-  .option-left {
-    border-radius: 1rem 0 0 1rem;
-  }
-
-  .option-right {
-    border-radius: 0 1rem 1rem 0;
-  }
-
-  .option-active {
-    background-color: rgb(249, 87, 89);
-    color: #fff;
-  }
-
   .primary {
     background-color: rgb(249, 87, 89);
     color: #fff;
@@ -193,24 +124,4 @@
     flex-wrap: wrap;
     margin-top: 3rem;
   }
-
-  .card {
-    background-color: rgb(27, 60, 138);
-    width: 28%;
-    color: #fff;
-    border-radius: 1rem;
-    padding: 0.1rem;
-    margin-right: 0.5rem;
-    margin-bottom: 1rem;
-    position: relative;
-  }
-
-  .card p {
-    position: absolute;
-    top: -20%;
-    left: 92.5%;
-    color: rgba(255, 255, 255, 0.388);
-    cursor: pointer;
-  }
-
 </style>
